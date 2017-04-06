@@ -30,6 +30,17 @@ linux(centos7) 搭建git服务:
 
 git@github.com:15208297593/goddess-backend.git
 
+	Git知识:
+		git添加当前目录所有文件 -- git add .
+		git查看当前状态			-- git status
+
+
+		常见错误及解决方法:
+			git error 'commit' is not possible because you have unmerged files
+			先手工编辑好conflict之后再add,再commit,再push
+
+
+
 阿里云:suoyudingzhi@qq.com Lh－15618962017
 paypal:suoyudingzhi@qq.com sydz0807
 订阅号 AppID   wx4f46a41d5fcdea79  AppSecret   e771f84cc851e05c75b2b01092af5608
