@@ -1,0 +1,35 @@
+清理yum缓存
+
+清理yum缓存使用yum clean 命令，yum clean 的参数有headers, packages, metadata, dbcache, plugins, expire-cache, rpmdb, all
+
+yum clean headers  #清理/var/cache/yum的headers
+yum clean packages #清理/var/cache/yum下的软件包
+yum clean metadata
+yum clean dbcache
+yum clean plugins
+yum clean expire-cache
+yum clean rpmdb
+yum clean all
+
+Linux释放内存
+
+	释放网页缓存(To free pagecache):	
+	sync; echo 1 > /proc/sys/vm/drop_caches
+
+	释放目录项和索引(To free dentries and inodes):
+	sync; echo 2 > /proc/sys/vm/drop_caches
+
+	释放网页缓存，目录项和索引（To free pagecache, dentries and inodes）:
+	sync; echo 3 > /proc/sys/vm/drop_caches
+
+free -m    #查看内存
+
+linux 查看磁盘空间常用命令
+	df -h 查看文件系统的磁盘使用情况
+	df -ah  人性化显示各存储空间大小
+	df -ahlT 有时候挂载了网络文件系统，若只想看本机的文件系统用此命令
+
+	du -sh 查看当前文件夹大小
+	du -ch 查看当前文件及文件中包含的子文件夹大小
+	du -h test1.txt 查看文件大小
+	du -h test1.txt test2.txt 查看多个文件的大小
