@@ -33,7 +33,21 @@ git@github.com:15208297593/goddess-backend.git
 	Git知识:
 		git添加当前目录所有文件 -- git add .
 		git查看当前状态			-- git status
+		将已修改的文件更新到暂存区域中 -- git add 文件名1 文件名2 ..
+		撤销已添加到暂存区域中的文件(即回到 "Untracked files" 状态) -- git checkout -文件名
+		Git的三种状态:
+				在初始化一个项目后,也就是将项目所在目录纳入Git的管理下. 假设目录为 temp,在temp目录下新建一个 README.txt 的文本文件
+				此时在git Bash 中切换到 temp目录下,执行:
+			#git status	
+				状态1	Git会友好的表示 README.txt 为 "Untracked files",并且提示使用 "git add.."命令将文件包含到待提交清单中,按照提示，执行
+			#git add README.txt
+			#git status
+				状态2	此时文件README.txt状态变成了“Changes to be committed”,也就是说README.txt在暂存区域生成了快照,等待被提交.正如Git提示那样, 通过“git rm –cached README.txt”命令，可以将文件状态还原为未暂存状态,即回到“Untracked files”文件状态,现在，README.txt已经可以被提交到git目录中了，但是暂时不提交。打开README.txt，向其中加些内容，再查看其状态\
+			#git status
+				状态3	除了之前的“Changes to be committed”状态，现在又多了一条“Changes not staged for commit”状态，表明文件已经修改，但是还没有放入暂存区域，也就是没生成快照。如果现在进行commit操作，只是将修改之前的文件快照提交到了git目录，一定记住：只有暂存区域的文件（即：文件状态为“Changes to be committed”）才会被提交。正如提示，通过“git add README.txt”命令将已修改文件更新到暂存区域中，如果想撤销修改，可以使用“git checkout – README.txt”命令。
 
+
+			Git在未进行commit操作之前，存在三种状态：Untracked files，Changes not staged for commit及Changes to be committed，每种状态之间可以随意进行互相转换。
 
 		常见错误及解决方法:
 			git error 'commit' is not possible because you have unmerged files
