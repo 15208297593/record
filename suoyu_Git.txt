@@ -211,3 +211,83 @@ centos7查看当前哪些进程占用内存:
         查找  按esc后  输入 / 然后输入要查找的 关键词 回车
 
         删除一个文件内的全部内容 方法1: 按ggdG   方法2: :%d
+
+
+    Java中去空格的方法:
+    	1. String.trim()
+			trim()是去掉首尾空格
+		2.str.replace(" ", ""); 去掉所有空格，包括首尾、中间
+			String str = " hell o ";
+			String str2 = str.replaceAll(" ", "");
+			System.out.println(str2);
+		3.或者replaceAll(" +",""); 去掉所有空格
+		4.str = .replaceAll("\s*", "");
+			可以替换大部分空白字符， 不限于空格 
+			s 可以匹配空格、制表符、换页符等空白字符的其中任意一个
+		5.或者下面的代码也可以去掉所有空格，包括首尾、中间
+			public String remove(String resource,char ch)
+			  {
+			    StringBuffer buffer=new StringBuffer();
+			    int position=0;
+			    char currentChar;
+
+			    while(position<resource.length())
+			    {
+			      currentChar=resource.charAt(position++);
+			      if(currentChar!=ch) buffer.append(currentChar); } return buffer.toString();
+			  }
+	在命令行执行 javac编译java文件出现 "错误: 编码UTF8的不可映射字符"
+		解决方法是添加encoding 参数：javac -encoding gbk xxx.java
+
+    Dos命令
+        在dos下打开某个目录的文件夹窗口   start 目录路径  例如:start c:\windows
+        在D:\盘建一个空的文本文件a.txt:
+        copy nul d:\a.txt
+        在这个文件中加一句 hi !
+        echo hi ! >> d:\a.txt
+        也可一次性创建只含一句话的文本文件：
+        echo 这是第一句 > d:\b.txt
+        然后再逐句添加：
+        echo 这是第二句 >> d:\b.txt
+
+    Python
+        在python脚本最上面添加这一行   # -*- coding: utf-8 -*- 让脚本文件以 UTF-8 格式保存
+
+    微信定时发送消息:
+        var appElement = document.querySelector('[ng-controller=chatSenderController]');
+        var $scope = angular.element(appElement).scope();
+        var times = 0;
+        var send = setInterval(function(){
+            times +=1;
+            if(times === 20){
+            clearInterval(send);
+            }
+                var localTime = new Date();
+                var localTimeString = localTime.toLocaleTimeString();
+                $scope.editAreaCtn = "时间快到9:30了，你该回去了！";
+                $scope.sendTextMessage();
+            },1000);
+
+
+    QQ:
+        //获取所有表情数组
+        var arr=document.getElementsByTagName("i");
+        //获取每个表情的title
+        var count = 0;
+        //获取文本框
+        var textarea = $('#chat_textarea');
+        //获取发送按钮
+        var sendbtn = $('#send_chat_btn');
+        //var times = 0;
+        var send = setInterval(function(){
+        //times +=1;
+        count ++;
+        if(count === 20){
+        clearInterval(send);
+        }
+            var localTime = new Date();
+            var localTimeString = localTime.toLocaleTimeString();
+            //textarea.value = localTimeString +' ,下班了';
+              textarea.value = localTimeString + '['+arr[count].title+']';
+            sendbtn.click();
+        },1000);
