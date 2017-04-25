@@ -219,3 +219,6 @@ MySQL事件
 	  		DROP EVENT [IF EXISTS] event_name 
 	  	6.2 例如
 	  		drop event if exists event_second;
+
+MySQL存储过程:
+	
