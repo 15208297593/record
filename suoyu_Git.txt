@@ -11,6 +11,8 @@ goddess-backend(后台) git@60.205.0.134:/srv/git/goddess-backend.git
 
 goddess-pc(网页端) git@60.205.0.134:/srv/git/goddess-pc.git
 
+如果服务器默认ssh端口号不是22 则用  ssh://git@ip:port/srv/git/xxx.git
+
 日常记录
 git@60.205.0.134:/srv/git/Mr.Deng.git
 
@@ -135,6 +137,26 @@ firewall-cmd --zone=public --add-port=8080/tcp --permanent
 	更新防火墙规则：# firewall-cmd --reload
 					# firewall-cmd --complete-reload
 两者的区别就是第一个无需断开连接，就是firewalld特性之一动态添加规则，第二个需要断开连接，类似重启服务
+
+iptables操作:
+    查看状态:
+    iptables -L -n
+    下面添加对特定端口开放的方法：
+    使用iptables开放如下端口
+    /sbin/iptables -I INPUT -p tcp --dport 8000 -j ACCEPT
+    保存
+    /etc/rc.d/init.d/iptables save
+    重启服务
+    service iptables restart
+    查看需要打开的端口是否生效？
+    /etc/init.d/iptables status
+
+    法2:
+    或直接编辑/etc/sysconfig/iptables
+    -A INPUT -p tcp -m tcp --dport 4000 -j ACCEPT
+    保存在前面部分
+    再重启:
+    service iptables restart
 
 tomcat开启远程调试
 CATALINA_OPTS="-Xdebug  -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n"
@@ -314,3 +336,17 @@ centos7查看当前哪些进程占用内存:
               textarea.value = localTimeString + '['+arr[count].title+']';
             sendbtn.click();
         },1000);
+
+        
+centos下如何修改FTP帐号或密码
+    centos下lamp的环境安装好后，也许会自动为你创建一个FTP用户， 但是用户名和密码可能你并不喜欢。
+    如想修改密码或用户名,先找个ssh工具，阿里云官网建议的是用PuTTY，而我也习惯了它。
+    修改FTP密码，连接上服务器后，在终端提示符下输入：passwd ftp（ftp为你要修改密码的帐号）
+    会提示输入新密码，并再次确认输入新密码。（如出现 “BAD PASSWORD: it is too simplistic/systematic”这样的提示,请不用紧张,这只是说明你的密码过于简单,但你的密码还是有修改成功的）
+    然后你就可以用新密码登录FTP了
+    修改FTP帐号，连接上服务器后，在终端提示符下输入：usermod -l mewftp ftp
+    newftp是新用户名，ftp是旧用户名。
+
+centos下彻底删除用户
+    先使用userdel xiaoluo(用户名) 删除账户和组的信息
+    再使用【find / -name "*xiaoluo*"】查找所有于该用户的相关文件，在使用rm -rf 删除

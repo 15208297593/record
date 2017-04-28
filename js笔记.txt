@@ -1,0 +1,98 @@
+js == 与 === 的区别
+            1、对于string,number等基础类型，==和===是有区别的
+            1）不同类型间比较，==之比较“转化成同一类型后的值”看“值”是否相等，===如果类型不同，其结果就是不等
+            2）同类型比较，直接进行“值”比较，两者结果一样
+            2、对于Array,Object等高级类型，==和===是没有区别的
+            进行“指针地址”比较
+            3、基础类型与高级类型，==和===是有区别的
+            1）对于==，将高级转化为基础类型，进行“值”比较
+            2）因为类型不同，===结果为false
+
+	由于JavaScript的函数可以嵌套，此时，内部函数可以访问外部函数定义的变量，反过来则不行
+				function foo() {
+				    var x = 1;
+				    function bar() {
+				        var y = x + 1; // bar可以访问foo的变量x!
+				    }
+				    var z = y + 1; // ReferenceError! foo不可以访问bar的变量y!
+				}
+	如果内部函数和外部函数的变量名重名怎么办？
+				function foo() {
+				    var x = 1;
+				    function bar() {
+				        var x = 'A';
+				        alert('x in bar() = ' + x); // 'A'
+				    }
+				    alert('x in foo() = ' + x); // 1
+				    bar();
+				}
+		这说明JavaScript的函数在查找变量时从自身函数定义开始，从“内”向“外”查找。如果内部函数定义了与外部函数重名的变量，则内部函数的变量将“屏蔽”外部函数的变量。
+
+变量提升
+	JavaScript的函数定义有个特点，它会先扫描整个函数体的语句，把所有申明的变量“提升”到函数顶部:
+				'use strict';
+				function foo() {
+			    var x = 'Hello, ' + y;
+			    alert(x);
+			    var y = 'Bob';
+				}
+
+				foo();
+	虽然是strict模式，但语句var x = 'Hello, ' + y;并不报错，原因是变量y在稍后申明了。但是alert显示Hello, undefined，说明变量y的值为undefined。这正是因为JavaScript引擎自动提升了变量y的声明，但不会提升变量y的赋值。
+
+	对于上述foo()函数，JavaScript引擎看到的代码相当于：
+				function foo() {
+			    var y; // 提升变量y的申明
+			    var x = 'Hello, ' + y;
+			    alert(x);
+			    y = 'Bob';
+				}
+
+js闭包:
+	
+		代码片段一。
+		　　var name = "The Window";
+		　　var object = {
+		　　　　name : "My Object",
+		　　　　getNameFunc : function(){
+		　　　　　　return function(){
+		　　　　　　　　return this.name;
+		　　　　　　};
+		　　　　}
+		　　};
+		　　alert(object.getNameFunc()());	//The Window
+
+		代码片段二。
+		　　var name = "The Window";
+		　　var object = {
+		　　　　name : "My Object",
+		　　　　getNameFunc : function(){
+		　　　　　　var that = this;
+		　　　　　　return function(){
+		　　　　　　　　return that.name;
+		　　　　　　};
+		　　　　}
+		　　};
+		　　alert(object.getNameFunc()());	//My Object
+
+
+				首先this指向的是当前运行该函数的对象,
+					1、object.getNameFunc()得到了一个函数，函数为function(){return this.name}
+					2、object.getNameFunc()()，此时为window运行该函数，所以this指向的是window,所以this.name为The window
+
+				对于代码片段一
+					object.getnameFunc() 返回的匿名闭包函数被全局变量所引用，其中的this指向
+					全局变量，当执行时打印The Window 。
+					对于代码片段二
+					object.getnameFunc() 在返回闭包函数前，将this赋给that，此时getnameFunc是由
+					object调用的，故而this指向object，当内部函数被返回时，由于闭包的特性，仍然
+					能访问到外部函数中的值，当执行打印My Object 。
+
+				代码段一、
+					当一个函数作为函数而不是方法调用的时候，这个this关键字引用全局对象。容易令人混淆的是，当一个嵌套的函数（作为函数）在一个包含的函数中调用，而这个包含的函数是作为方法调用的，这也是成立的：this关键字在包含的函数中有一个值，但是它却（不太直观地）引用嵌套的函数体的内部的全局对象。
+					所以第一个打印出来的是"The Window"
+					代码段二、
+					由于this关键字不是在包含的函数中引用的，而是通过that=this这个调用的，所以这个this不是在闭包内的，因此这个this就不能调用函数体内的全局对象，而是他的局部对象object.name，所以第二个打印出来的是"My Object"
+
+正则表达式中需要转义的特殊字符（15个）：
+	^ $ | ? . * + { } [ ] ( ) / \
