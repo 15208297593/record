@@ -1,0 +1,95 @@
+php上传文件和中文乱码问题:
+	
+	关于PHP文件上传
+
+在前端HTML页面，表单如下
+
+Upload.html
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<form action="upload.php" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="MAX_FILE_SIZE" value="2621114">
+    <input type="file" required name="upload_file">
+    <input type="submit" value="提交">
+</form>
+</body>
+</html>
+
+注意
+
+enctype="multipart/form-data"一定要写，这是告诉浏览器你在上传什么东西
+
+<input type="hidden" name="MAX_FILE_SIZE" value="2621114"> 前端设置文件大最大值
+
+ 
+
+后端upload.php
+
+<?php
+if (is_uploaded_file($_FILES['upload_file']['tmp_name'])){
+    $upfile = $_FILES['upload_file'];
+    //print_r($upfile);
+    $name = $upfile['name'];//获取文件名
+    $type = $upfile['type'];//文件类型
+    $size = $upfile['size'];//文件大小
+    $tmp_name = $upfile['tmp_name'];//服务器存储的临时名称
+    $error = $upfile['error'];//错误信息
+
+    switch ($type){
+        case 'image/png':
+            $ok=1;
+            break;
+        case 'image/jpg':
+            $ok=1;
+            break;
+        case 'image/jif':
+            $ok=1;
+            break;
+        case 'image/jpeg':
+            $ok=1;
+            break;
+    }
+    if ($ok && $error == 0){
+        move_uploaded_file($tmp_name,'./upload/'.iconv("UTF-8", "gbk",$name));
+        echo '文件上传成功';
+    }else{
+        echo '文件上传失败';
+    }
+
+}
+
+上传时，PHP收到关于该文件的信息数组，这些信息可以在$_FILES这个超级全局数组中找到。 
+如：如果表单中的文件输入框名字为upload_file，那么关于该文件的所有信息都包含在数组$_FILES['upload_file']里面。 
+
+is_uploaded_file — 判断文件是否是通过 HTTP POST 上传的
+
+move_uploaded_file — 将上传的文件移动到新位置
+
+bool move_uploaded_file ( string $filename , string $destination )
+
+	***	当遇到中文文件名的时候，对文件名进行强制转码iconv("UTF-8", "gbk",$name)，将UTF8转换成gbk，这样就不会出现乱码了
+
+	示例:move_uploaded_file($_FILES['file1']['tmp_name'], "./".iconv("UTF-8","GBK",$_FILES['file1']['name']));
+
+ajax --> $.Get 用法:	
+	$.get(URL,data,function(data,status,xhr),dataType)
+    
+php __FILE__ __DIR__魔术常量的使用
+    PHP5.3中，增加了一个新的常量__DIR__，指向当前执行的PHP脚本所在的目录。
+        例如当前执行的PHP文件为 /www/website/index.php
+        则__FILE__等于'/www/website/index.php'
+        而__DIR__等于'/www/website'
+        现在我们要包含当前文件目录或子目录下的文件，可以直接使用：
+        <?php
+        require_once __DIR__ . '/path/to/test.inc.php';
+        ?>
+ 

@@ -1,8 +1,3 @@
-X goddess(微信端) git@kuiGit:/home/gitSave/suoyu.git
-X goddess-backend(后台) git@kuiGit:/home/gitSave/suoyuback.git
-X goddess-pc(网页端) git@kuiGit:/home/gitSave/suofront.git
-
-
 所欲测试服的git   账户 git  repogit
 
 goddess(微信端) git@60.205.0.134:/srv/git/goddess.git
@@ -80,11 +75,16 @@ git@github.com:15208297593/goddess-backend.git
             建立本地分支和远程分支的关联，使用git branch --set-upstream branch-name origin/branch-name；
             从远程抓取分支，使用git pull，如果有冲突，要先处理冲突。
 
-阿里云:suoyudingzhi@qq.com Lh－15618962017
-paypal:suoyudingzhi@qq.com sydz0807
-订阅号 AppID   wx4f46a41d5fcdea79  AppSecret   e771f84cc851e05c75b2b01092af5608
-测试服 mysql   123456My!!
+        Git如何切换远程仓库地址:
+        	一、修改命令
+			git remote set-url origin url
+			二、先删后加
+			git remote rm origin
+			git remote add origin git@github.com:sheng/demo.git
+			三、修改config文件
+			如果你的项目有加入版本控制，那可以到项目根目录下，查看隐藏文件夹， 发现.git文件夹，找到其中的config文件，就可以修改其中的git remote origin地址了。
 
+订阅号 AppID   wx4f46a41d5fcdea79  AppSecret   e771f84cc851e05c75b2b01092af5608
 
 linux mount nfs 的一些坑
 /etc/exports 配置文件的内容
@@ -240,8 +240,9 @@ centos7查看当前哪些进程占用内存:
         从 远程 复制到 本地，
          scp (-rf 可选参数) 远程用户名 @IP 地址 : 文件名1    本地用户名 @IP 地址 : 文件名2
         
-        从本地复制到远程 只要将 从 远程 复制到 本地 的命令 的 后2个参数 调换顺序 即可； 
-        
+        从本地复制到远程 只要将 从 远程 复制到 本地 的命令 的 后2个参数 调换顺序 即可；
+
+        注意：在需要指定端口时要使用-P(大写的P)，而且要紧跟在scp之后：scp -P 12349 upload_file username@server（正确）        
 
     https://checkapi.aliyun.com/check/checkdomain?domain=dlfasdfndsl.com&token=check-web-hichina-com%3A3tsdmhszgw9a2ces5mdgsvu125yuzphh
 
@@ -314,29 +315,6 @@ centos7查看当前哪些进程占用内存:
             },1000);
 
 
-    QQ:
-        //获取所有表情数组
-        var arr=document.getElementsByTagName("i");
-        //获取每个表情的title
-        var count = 0;
-        //获取文本框
-        var textarea = $('#chat_textarea');
-        //获取发送按钮
-        var sendbtn = $('#send_chat_btn');
-        //var times = 0;
-        var send = setInterval(function(){
-        //times +=1;
-        count ++;
-        if(count === 20){
-        clearInterval(send);
-        }
-            var localTime = new Date();
-            var localTimeString = localTime.toLocaleTimeString();
-            //textarea.value = localTimeString +' ,下班了';
-              textarea.value = localTimeString + '['+arr[count].title+']';
-            sendbtn.click();
-        },1000);
-
         
 centos下如何修改FTP帐号或密码
     centos下lamp的环境安装好后，也许会自动为你创建一个FTP用户， 但是用户名和密码可能你并不喜欢。
@@ -350,3 +328,197 @@ centos下如何修改FTP帐号或密码
 centos下彻底删除用户
     先使用userdel xiaoluo(用户名) 删除账户和组的信息
     再使用【find / -name "*xiaoluo*"】查找所有于该用户的相关文件，在使用rm -rf 删除
+
+删除window服务:
+    win+r --> cmd 打开dos窗口
+    执行命令: sc delete "mysqla(要删除的服务名)" 
+
+tar命令:
+		tar -ztvf file.tar.gz 在不解压文件是查看包内的文件信息;
+		tar -zxvf file.tar.gz /www	将压缩包解压到 /www 目录下;
+		tar cfz file.tar.gz www		将www 目录压缩为 file.tar.gz 文件,因为 .tar 文件几乎是没压缩过的
+
+Linux下移动一个文件夹下的所有文件到另一个文件夹:
+		mv /www/web/* /www/abc
+
+在CentOS安装软件的时候，可能缺少一部分支持库，而报错。这里首先安装系统常用的支持库。那么在安装的时候就会减少很多的错误的出现。
+
+# yum install -y gcc gdb strace gcc-c++ autoconf libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel libxml2 libxml2-devel zlib zlib-devel glibc glibc-devel glib2 glib2-devel bzip2 bzip2-devel ncurses ncurses-devel curl curl-devel e2fsprogs patch e2fsprogs-devel krb5-devel libidn libidn-devel openldap-devel nss_ldap openldap-clients openldap-servers libevent-devel libevent uuid-devel uuid mysql-devel
+
+yum install：安装新软件包
+yum remove：卸载指定的软件包
+yum grouplist：查看系统中已经安装的和可用的软件组
+yum groupinstall：安装指定软件组中的软件包
+yum groupupdate：更新指定软件组中的软件包
+yum groupremove：卸载指定软件组中的软件包
+yum clean all：清除缓存中的rpm 头文件和包文件
+yum -y search ：搜索相关的软件包
+yum info ：显示指定软件包的信息
+yum deplist ：查询指定软件包的依赖信息
+yum list yum\*：列出所有以 yum 开头的软件包
+yum provides：命令路径 可以查处命令由那个软件包安装得到
+yum 命令可以使用 -y 参数回答 yes
+
+datetimepicker:
+        //上班时间选择
+            $('#timepickerOn').timepicker({
+                minuteStep : 1,
+                secondStep : 1,
+                showSeconds : true,
+                showMeridian : false,
+                disableFocus : true,
+                icons : {
+                    up : 'fa fa-chevron-up',
+                    down : 'fa fa-chevron-down'
+                }
+            }).on('focus', function() {
+                $('#timepickerOn').timepicker('showWidget');
+            }).next().on(ace.click_event, function() {
+                $(this).prev().focus();
+            });
+
+            //下班时间选择
+            $('#timepickerOff').timepicker({
+                minuteStep : 1,
+                secondStep : 1,
+                showSeconds : true,
+                showMeridian : false,
+                disableFocus : true,
+                icons : {
+                    up : 'fa fa-chevron-up',
+                    down : 'fa fa-chevron-down'
+                }
+            }).on('focus', function() {
+                $('#timepickerOff').timepicker('showWidget');
+            }).next().on(ace.click_event, function() {
+                $(this).prev().focus();
+            });
+
+JS取消标签元素上原有的click事件改用自定义的方法:
+    jQuery中，针对标签属性的操作都是使用attr()方法来实现的，比如：$(“a”).attr(“onclick”)可获得a标签的onclick属性,对应的：
+    删除onclick属性：$(“a”).removeAttr(“onclick”);
+    设置onclick属性：$(“a”).attr(“onclick”,”test();”);
+
+运行Jenkins报  ERROR: Maven JVM terminated unexpectedly with exit code 137.
+    解决方案: 调整 Maven-OPTS 参数
+
+    We were running Jenkins as a daemon and found adjusting the "-Xmx" startup param solved the problem -- "/usr/bin/java -Dcom.sun.akuma.Daemon=daemonized -Djava.awt.headless=true -XX:MaxPermSize=512m -Xmx8192m -DJENKINS_HOME=/var/lib/jenkins -jar /usr/lib/jenkins/jenkins.war --logfile=/var/log/jenkins/jenkins.log --webroot=/var/cache/jenkins/war --daemon --httpPort=8080 --ajp13Port=-1 --debug=5 --handlerCountMax=100 --handlerCountMaxIdle=20"
+    
+    http://blog.csdn.net/a351945755/article/details/19192479
+
+centos7下启动httpd服务报 "unregistered authentication agent for httpd..."错误:
+    关闭SELinux即可解决:  setenforce 0
+
+google chrome离线安装包:
+    https://www.google.com/chrome/browser/thankyou.html?standalone=1&platform=win&installdataindex=defaultbrowser
+    standalone=1 ：确认下载离线安装包
+    platform=win ：适用平台为windows
+    installdataindex=defaultbrowser  ：安装后设chrome为当前默认浏览器
+    extra=stablechannel  ：指定版本为稳定版（候选列表同上）
+ubantu16.04 apt install 安装apache2,phpinfo页面空白:
+    更改php.ini中的  short_open_tag 值为 on 然后重启 apache 服务
+
+ubuntu下apache服务器开启url重写:
+    1.sudo gedit /etc/apache2/apache2.conf  打开apache配置文件
+    <Directory /var/www/>  实际目录根据网站根目录而定
+        Options Indexes FollowSymLinks
+        AllowOverride None  改为All
+        Require all granted
+    </Directory>
+
+    2.ln -s /etc/apache2/mods-avaliable/rewrite.load /etc/apache2/mods-enable/rewrite.load
+    建立url重写模块的软连接，apache会自动加载（前提是apache2.conf中配置了加载mods-enable中的模块，默认是加载）
+
+    3.在网站的根目录下建立.htaccess文件，内容为：
+    <IfModule mod_rewrite.c> 
+      Options +FollowSymlinks 
+      RewriteEngine On 
+      RewriteCond %{REQUEST_FILENAME} !-d 
+      RewriteCond %{REQUEST_FILENAME} !-f 
+      RewriteRule ^(.*)$ index.PHP/$1 [QSA,PT,L] 
+    </IfModule>
+
+    4.重启apache服务。。必须是root才能重启
+    http://blog.csdn.net/u010521546/article/details/44942277
+    http://www.linuxidc.com/Linux/2017-01/139105.htm
+
+mysql追加表注释:
+    alter table card comment ='注释内容';
+
+bug管理软件:
+    delbug      http://www.delbug.cn/
+    bugdone     https://www.bugdone.cn/
+    蒲公英      bug.pgyer.com
+    禅道项目管理软件    http://www.zentao.net/download.html
+    JIRA        https://www.atlassian.com/software/jira
+    Mantis问题管理系统    http://www.mantis.org.cn/
+    bugly       https://bugly.qq.com/v2/
+    bugclose    https://www.bugclose.com/
+    bugtags     https://work.bugtags.com/login.html
+    bugzilla    https://www.bugzilla.org/
+开源项目管理软件:
+    OpenProj    GanttProject    DotProject  TaskJuggler     PHProjekt      ConsultComm  ProjectPier     OpenGoo     Collabtive  Redmine
+    http://blog.csdn.net/dj0379/article/details/52135913
+
+php的dirname(__FILE__)和dirname(dirname(__FILE__))
+    dirname(dirname(__FILE__)); 
+    假设__FILE__为 /home/web/config/config.PHP  
+    上面的方法输出为 /home/web  
+    dirname(dirname(__FILE__));得到的是文件上一层目录名
+    dirname(__FILE__);得到的是文件所在层目录名
+
+Linux查看配置信息:
+    http://blog.csdn.net/dream_broken/article/details/52883883
+    1.系统
+        1.1版本   uname -a 能确认是64位还是32位，其它的信息不多
+                  more /etc/*release 可以看到更多信息
+        1.2核数   cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c
+                  cat /proc/cpuinfo | grep physical | uniq -c
+                  cat /proc/cpuinfo可以看到更为详细的信息
+        1.3运行模式 getconf LONG_BIT  CPU运行在多少位模式下
+                    cat /proc/cpuinfo | grep flags | grep ' lm ' | wc -l 是否支持64位   (结果大于0, 说明支持64bit计算. lm指long mode, 支持lm则是64bit)
+        1.4计算机名  hostname
+        1.5.查看环境变量  env
+        1.6系统允许多长时间了/负载数    uptime
+                                        直接查看平均负载情况 cat /proc/loadavg    (例:0.00 0.01 0.05 4/524 7152 除了前3个数字表示平均进程数量外，后面的1个分数，分母表示系统进程总数，分子表示正在运行的进程数；最后一个数字表示最近运行的进程ID)
+    2.资源
+        2.1内存   cat /proc/meminfo内存的详细信息   MemTotal总内存，MemFree可用内存,free -m(-m，单位是m，如果是-g，单位是g）查看可用内存
+               空闲内存total-used=free+buff/cache   我们通过free命令查看机器空闲内存时，会发现free的值很小。这主要是因为，在linux中有这么一种思想，内存不用白不用，因此它尽可能的cache和buffer一些数据，以方便下次使用。但实际上这些内存也是可以立刻拿来使用的。
+    3.磁盘和分区
+        3.1查看各分区使用情况    df -h
+        3.2查看指定目录的大小    fdisk -l
+        3.4查看所有交换分区      swapon -s
+    4.网络
+        4.1查看所有网络接口的属性  ifconfig
+        4.2 带宽  ethtool 网卡名
+        4.3查看路由表    route -n
+        4.4查看所有监听端口    netstat -lntp
+        4.5查看所有已经建立的连接     netstat -antp
+        4.6 某端口使用情况     lsof -i:端口号  或者  netstat -apn|grep 端口号
+
+    5.进程
+    5.1查看所有进程   ps -ef,使用ps -ef|gerp tomcat过滤
+                      ps -aux可以看到进程占用CPU,内存情况
+    5.2实时显示进程状态     top
+
+    6.用户
+        6.1查看活动用户  w
+        6.2查看指定用户的信息 id <用户名>
+        6.3查看用户登录日志 last
+        6.4查看系统所有用户 cut -d: -f1 /etc/passwd
+
+Eclipse快捷键:
+    1、编辑页面编辑页之间切换的快捷键
+        Ctrl + Shift + F6 （轻松实现了切换） alt+left/right  ctrl+page up/page down
+    2、java窗口和deBug调试窗口切换快捷键
+        Ctrl + Shift + F8
+    3、查看快捷键列表的快捷键
+        Ctrl + Shift + L
+数据导入报错：Got a packet bigger than‘max_allowed_packet’bytes的问题
+    1.临时修改：mysql>set global max_allowed_packet=524288000;修改 #512M
+ 
+    2.修改my.cnf，需重启mysql.     
+      在 [MySQLd] 部分添加一句（如果存在，调整其值就可以）：
+      max_allowed_packet=10M
+
+        MySQL:GCfund!@!
