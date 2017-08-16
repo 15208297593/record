@@ -1,0 +1,356 @@
+Overload和Override的区别。
+
+override（重写）
+1）方法名、参数、返回值相同。
+2）子类方法不能缩小父类方法的访问权限。
+3）子类方法不能抛出比父类方法更多的异常(但子类方法可以不抛出异常)。
+4）存在于父类和子类之间。
+5）方法被定义为final不能被重写。
+
+overload（重载）
+
+1）参数类型、个数、顺序至少有一个不相同。
+2）不能重载只有返回值不同的方法名。
+3）存在于父类和子类、同类中。　
+
+
+String s = new String("xyz");
+
+创建了几个String Object? 
+两个，一个是string s，另一个是”xyz”。
+
+
+
+编码转换，怎样实现将GB2312编码的字符串转换为ISO-8859-1编码的字符串。
+String str = new String("字符串".getBytes("GB2312"),"ISO-8859-1"); 
+
+
+
+html;js;java;算法
+
+
+
+<style>
+  .container{
+    width:30px;
+    height:600px;
+    border:10px solid blue;
+  }
+
+  .left_a{
+    width:100%;
+    height:50%;
+    background:green;
+  }
+
+  .left_b{
+    width：100%；
+    height:50%;
+    background:red;
+  }
+
+  .right, .left{
+    width:50%;
+    height:100%;
+    float:left;
+    background:yellow;
+  }
+
+  <div class="container">
+    <div class="left">
+       <div class="left_a"></div>
+       <div class="left_b"></div>
+    </div>
+    <div class="right"></div>
+  </div>
+  .
+</style>
+
+<script>
+  function isNum(num){
+    var reg=/^\d*$/g;
+    return reg.test(num);
+  }
+</script>
+
+
+1、使用entries来遍历(entrySet()的返回值也是返回一个Set集合，此集合的类型为Map.Entry)
+使用说明：该方法只能用于java 5或者更高的版本；如果遍历的map是一个空值，循环会抛出NUllPointerException，因此在遍历之前必须检查是否为空！
+Map<Object, Object> map = new HashMap<Object, Object>();  
+for(Map.Entry<Object, Object> entry : map.entryset()){  
+    System.out.print("Key = "+entry.getKey()+",value="+entry.getValue());  
+} 
+
+2、使用keySet或者values来进行遍历
+使用说明：该方法相对前者快了10%左右；
+Map<Object, Object> map = new HashMap<Object, Object>();  
+for(Object key : map.keySet){   //只能遍历key  
+    System.out.print("Key = "+key);  
+}  
+  
+  
+for(Object value : map.values){  //只能遍历value  
+    System.out.print("Value = "+value);  
+} 
+
+
+3、使用Iterator进行遍历
+使用说明：在低版本的java中可以使用该方法；
+    Iterator<Map.Entry<String, String>> it = map.entrySet().iterator();  
+    while (it.hasNext()) {  
+        Map.Entry<String, String> entry = it.next();  
+        System.out.println("key= " + entry.getKey() + " and value= " + entry.getValue());  
+    }  
+
+
+public class DownLoad {   
+ public static void downloadFile(URL theURL, String filePath) throws IOException {  
+   File dirFile = new File(filePath);
+      if(!dirFile.exists()){ 
+        //文件路径不存在时，自动创建目录
+        dirFile.mkdir();
+      }
+  //从服务器上获取图片并保存
+     URLConnection connection = theURL.openConnection();
+     InputStream in = connection.getInputStream();  
+     FileOutputStream os = new FileOutputStream(filePath+"\\123.png"); 
+     byte[] buffer = new byte[4 * 1024];  
+     int read;  
+     while ((read = in.read(buffer)) > 0) {  
+        os.write(buffer, 0, read);  
+          }  
+       os.close();  
+       in.close();
+  }   
+     public static void main(String[] args) { 
+      //下面添加服务器的IP地址和端口，以及要下载的文件路径
+      String urlPath = "http://服务器IP地址:端口/image/123.png"; 
+       
+      //下面代码是下载到本地的位置
+      String filePath = "d:\\excel"; 
+   
+      URL url = new URL(urlPath); 
+   
+          try { 
+   
+             downloadFile(url,filePath); 
+   
+           } catch (IOException e) { 
+   
+            e.printStackTrace(); 
+   
+         } 
+   
+      } 
+
+import java.io.File;
+public class DepthTraversal {
+  public static void main(String[] args) {
+    File dir = new File("d:\\BaiduYunDownload");
+    listAll(dir, 0);
+  }
+ 
+  public static void listAll(File dir, int level) {
+    System.out.println(getSpace(level) + dir.getName());
+    level++; //每调用一次，level加1
+    File[] files = dir.listFiles(); //获取指定目录下当前的所有文件夹或者文件对象
+    for (int x = 0; x < files.length; x++) { //循环遍历
+      if (files[x].isDirectory()) { //如果是目录，继续调用listAll函数
+        listAll(files[x], level);
+      } else { //否则，直接输出文件名
+        System.out.println(getSpace(level) + files[x].getName());
+      }
+    }
+  }
+ 
+  private static String getSpace(int level) { //输出空格，加强显示效果
+    StringBuilder sb = new StringBuilder();
+    sb.append("|--");
+    for (int x = 0; x < level; x++) {
+      sb.insert(0, "| ");
+    }
+    return sb.toString();
+  }
+}
+
+
+
+//文件以流的形式来操作：输入、输出流（出入内存）
+//1.字节流：可读二进制文件及任何类型文件；（InputStream,OutputStream）
+//2.字符流：可读文本文件,不可读二进制(Reader,Writer)
+
+//File类的基本用法
+package com.test8;
+import java.io.*;
+
+public class FileIO {
+
+    public static void main(String[] args)  {
+        // TODO Auto-generated method stub
+      File file=new File("d:\\aa.txt");
+      File file2=new File("d:/aa.txt");   //2种形式等价
+      System.out.println("文件路径  "+file.getAbsolutePath()+"文件大小：  "+file2.length());
+      
+      File f=new File("d:\\hsp.txt");
+      if(!f.exists()){
+        try {
+            f.createNewFile();      //创建文件
+        } catch (IOException e) {
+            
+            e.printStackTrace();
+        }
+      }
+       //列出一个文件下的所有文件夹
+       File f2=new File("D:\\树");
+       if(f2.isDirectory()){
+           File lists[]=f2.listFiles();
+           for(int i=0;i<lists.length;i++)
+               System.out.println("文件：\n"+lists[i].getName());
+       }
+       
+       
+       File f3=new File("d:\\aa.txt");
+       FileInputStream fis=null;
+       //因为File没有读写能力，所以需要InputStream流
+       try {
+           
+         fis=new FileInputStream(f3);
+         byte []bytes=new byte[1024];//定义一个字节数组,相当于缓存
+         int n=0;//得到实际读取到的字节数
+         while((n=fis.read(bytes))!=-1){
+            String s=new String(bytes,0,n);//把字节转为String类型
+            System.out.println(s);
+         }
+        } catch (Exception e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+        }finally{
+            //关闭文件流,必须放这,因为finally一定执行
+            try {
+                fis.close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+       
+        File f4=new File("D:\\aaa.txt");
+        FileOutputStream fos=null;
+        
+        try {
+            fos=new FileOutputStream(f4);
+            String s="你好啊\r\n";//回车换行
+            String s2="你也好啊";
+             //byte []bytes=new byte[1024];
+            //把String转为bytes【】
+            
+            fos.write(s.getBytes());
+            fos.write(s2.getBytes());
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }finally{
+            try {
+                fos.close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        //图片copy   1.先把图片读入到内存 2.写入到某个文件
+        //因为是二进制的，只能用字节流
+        File f5=new File("c\\a.jpg");
+        FileInputStream fis2=null;
+        FileOutputStream fos2=null;
+        try {
+            
+            fis2=new FileInputStream(f5);
+            fos2=new FileOutputStream("d:\\a.jpg");
+            
+            byte buf[]=new byte[1024];  //byte为一位
+            int n=0;
+            while((n=fis2.read(buf))!=-1){    //循环读取,读入到buf
+                fos2.write(buf);            //输出到指定文件 ，从buf中读出
+            }
+            
+        } catch (Exception e) {
+            
+            e.printStackTrace();
+        }finally{
+            try{
+            fis2.close();
+            fos2.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+       
+        
+        //字符流案例     copy文件
+        FileReader fr=null;   //输入流
+        FileWriter fw=null;   //输出流，对应OutputStream
+        
+        try {
+            
+            fr=new FileReader("c:\\test.txt");
+            fw=new FileWriter("d:\\zzz.txt");
+            //读入内存
+            char c[]=new char[1024];   //字符数组，2个字节
+            int n=0; //记录实际读取到的字符数
+            while((n=fr.read(c))!=-1){
+//                String s=new String(c,0,n);
+//                System.out.println(c);  //输出读取到的c
+                fw.write(c);         //把c输出到fw  
+            }
+            
+        } catch (Exception e) {
+            
+            e.printStackTrace();
+        }finally{
+            try {
+                fr.close();
+                fw.close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            
+        }
+        
+        
+        //演示缓冲字符流       提高效率    一次读取更多内容     BufferedReader   直接操作string
+        
+        BufferedReader br=null;
+        BufferedWriter bw=null;
+        //先创建FileReader对象
+        FileReader fr3=null;
+        FileWriter fw3=null;
+        try {
+             fr3 = new FileReader("c:\\a.txt");
+             br=new BufferedReader(fr3);
+             
+             fw3=new FileWriter("d:\\d.txt");
+             bw=new BufferedWriter(fw3);
+             //循环读取
+             String s="";
+             while((s=br.readLine())!=null){
+                // System.out.println(s);
+                 //输出到磁盘
+                 bw.write(s+"\r\n");    //其本身不完成换行，自己加回车换行
+             }
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }finally{
+            try {
+                br.close();
+                bw.close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        
+       
+  }
+}

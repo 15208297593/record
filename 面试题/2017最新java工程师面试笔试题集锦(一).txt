@@ -1,0 +1,188 @@
+struts2: 
+Struts2是一个基于MVC设计模式的Web应用框架，它本质上相当于一个servlet，在MVC设计模式中，Struts2作为控制器(Controller)来建立模型与视图的数据交互。Struts 2的Action是一个请求对应一个实例（每次请求时都新new出一个对象），没有线程安全方面的问题。
+
+Struts 2 相比Struts 1的优点：
+1、在软件设计上Struts 2 没有像Struts 1那样跟Servlet API 和 struts API 有着紧密的耦合。 
+Struts 2的应用可以不依赖于Servlet API和Struts API 。
+
+2、Struts 2 提供了拦截器，利用拦截器可以进行AOP编程。
+
+3、Struts 2 提供了类型转换器。
+
+4、Struts 2 提供支持多种表现层技术，如：JSP 、 freeMarker等。
+
+5、Struts 2 的输入校验可以指定方法进行校验。
+
+6、Struts 2 提供了全局范围、包范围和Action范围的国际化资源文件管理实现。
+
+JSP:
+
+Jsp包含三个编译指令和七个动作指令。
+三个编译指令为：page、include、taglib。
+
+七个动作指令为：jsp:forward、jsp:param、jsp:include、jsp:plugin、jsp:useBean、jsp:setProperty、jsp:getProperty。
+
+〈% @page
+
+[language=”Java”]
+
+[extends=”package.class”]
+
+[import= “package. class I package. *},…”]
+
+[session=”true I false”]
+
+[buffer=”none I 8kb I size kb” 1
+
+[autoFlush=”true I false”]
+
+[isThreadSafe=”true I false”]
+
+[info=”text”]
+
+[errorPage=”relativeURL”]
+
+[contentType=”mimeType[ ;charset=characterSet]” I”text/html;charset= “808859-1”]
+
+[isErrorPage=” true I false”]
+
+%〉
+
+JSP中有三种形式的脚本，要理解这三种脚本，应该先理解JSP的运行模式，JSP文件有两种形态：设计时的JSP文件和运行时态的Servlet，当用户访问一个JSP文件的时候，这个JSP文件首先会被编译生成Servlet代码，然后这个Servlet会被编译运行，从而产生动态页面，所以JSP中的JAVA脚本都会被作为Servlet类中的代码存在。
+
+
+1.声明式脚本。jsp中编写方式如下：<%!  %>。在<%! %>中的的变量和方法都是作为()类的成员存在的，所以这种脚本称作声明式脚本，用来声明类的成员属性和方法的。
+2.普通脚本。又称作Jsp ScriptLet，jsp中编写方式如下：<%  %>。在脚本<% %>中的代码是作为servlet类的service方法的一部分存在的，即在<%%>中的变量是局部变量，而不能编写方法，因为java中不允许在方法中再直接定义方法，所以这种脚本称作普通脚本，因为就是普通的java代码。
+3.表达式脚本。编写方式如下：<%= %>。在jsp对应的servlet类的service方法中<%= %>中的内容是作为out.print()方法的参数存在的，作用是在浏览器页面上输出内容，所以<%= %>中必须是有结果的表达式用于输出，所以这种脚本称作表达式脚本。
+一、String,StringBuffer, StringBuilder 的区别是什么？String为什么是不可变的？ 
+1. String是字符串常量，StringBuffer和StringBuilder是字符串变量。StringBuffer是线程安全的，StringBuilder是非线程安全的。具体来说String是一个不可变的对象，每次修改String对象实际上是创新新对象，并将引用指向新对象。效率很低。StringBuffer是可变的，即每次修改只是针对其本身，大部分情况下比String效率高，StringBuffer保证同步（synchronized），所以线程安全。StringBuilder没有实现同步，所以非线程安全。但效率应该比StringBuffer高。StringBuffer使用时最好指定容量，这样会比不指定容量快30%-40%，甚至比不指定容量的StringBuilder还快。
+
+二、VECTOR,ARRAYLIST, LINKEDLIST的区别是什么？ 
+vector是同步的，arraylist和linkedlist不是同步的。底层方面，vector与arraylist都是基于object[]array实现的，但考虑vector线程安全，所以arraylist效率上回比vector较快。元素随机访问上，vector与arraylist是基本相同的，时间复杂度是O(1)，linkedlist的随机访问元素的复杂度为O(n)。但在插入删除数据上，linkedlist则比arraylist要快很多。linkedlist比arraylist更占内存，因为linkedlist每个节点上还要存储对前后两个节点的引用。
+
+四、ConcurrentHashMap和HashTable的区别 
+两者均应用于多线程中，但当HashTable增大到一定程度时，其性能会急剧下降。因为迭代时会被锁很长时间。但ConcurrentHashMap则通过引入分割来保证锁的个数不会很大。简而言之就是HashTable会锁住真个map，而ConcurrentHashMap则只需要锁住map的一个部分。
+
+五、Tomcat，apache，jboss的区别 
+Tomcat是servlet容器，用于解析jsp，servlet。是一个轻量级的高效的容器；缺点是不支持EJB，只能用于Java应用。 
+Apache是http服务器（web服务器），类似于IIS可以用来建立虚拟站点，编译处理静态页面。支持SSL技术，支持多个虚拟主机等功能。 
+Jboss是应用服务器，运行EJB的javaee应用服务器，遵循javaee规范，能够提供更多平台的支持和更多集成功能，如数据库连接，JCA等。其对servlet的支持是通过集成其他servlet容器来实现的。如tomcat。
+
+七、SESSION, COOKIE区别 
+session数据放在服务器上，cookie则放在客户浏览器上。cookie不太安全，因为可以分析出本地cookie，并进行cookie欺骗，考虑安全应使用session。session会在一定时间内保存在服务器上，当访问增多时，会比较占用服务器的性能，考虑减轻服务器压力则应该使用cookie。单个cookie保持的数据不超过4k，很多浏览器都限制要给站点最多保存20个cookie。
+
+八、Servlet的生命周期 
+主要分三个阶段：初始化——调用init()方法，响应客户请求阶段——调用service()方法，终止阶段——调用destroy方法。工作原理：客户发送一个请求，servlet调用service方法对请求进行响应，即对请求方式进行匹配，选择调用doGet、doPost方法等，然后进入对于的方法中调用逻辑层的方法，实现对客户的响应。自定义的servlet必须首先servlet接口。 
+具体生命周期包括：装载Servlet、服务器创建Servlet实例、服务器调用Servlet的init()方法、客户请求到达服务器、服务器创建请求对象、服务创建相应对象、服务器激活Servlet的service方法，请求对象和响应对象作为service()方法的参数、service()方法获得关于请求对象的信息，处理请求，访问其他资源，获得需要的信息、service()方法可能激活其他方法以处理请求，如doGet()，doPost()
+
+九、HTTP 报文包含内容 
+（请求行，请求头部，请求正文） 
+请求方法包括GET,POST,HEAD,PUT,TRACE,OPTIONS,DELETE。请求头如：Host、User-Agent、Connection、Accept-Charset等。请求头部的最后会有一个空行，表示请求头部结束，接下来为请求正文，这一行非常重要，必不可少。请求正文为可选部分，如get就没有。
+
+十、Statement与PreparedStatement的区别,什么是SQL注入，如何防止SQL注入 
+使用PreparedStatement可以提升代码的可读性和可维护性，可以尽最大可能提高性能。因为Statement每次执行一个SQL命令都会对其编译，但PreparedStatement则只编译一次。PreparedStatement就类似于流水线生产。另一方面PreparedStatement可以极大提高安全性：它对传递过来的参数进行了强制参数类型转换，确保插入或查询数据时，与底层数据库格式匹配。 
+SQL注入：就是通过将sql命令插入到web表单递交或输入域名或页面请求的查询字符串，最终达到欺骗服务器执行恶意SQL命令。如sql命令：select id from test where name=’1’ or 1=1; drop table test,但用PreparedStatement就可以避免这种问题。
+
+十一、redirect, forward区别 
+redirect：服务器根据逻辑，发送一个状态码，告诉浏览器重新去请求那个地址。所以地址栏显示是新的url。forward是指服务器请求资源，直接访问目标地址url，把响应的内容读取过来并再发送给浏览器，浏览器并不知道资源从哪里来，所以地址栏不变。 
+redirect不能共享数据，forward转发页面和转发到页面可以贡献request中的数据。redirect用于注销，forward用于登陆。forward效率高于redirect。
+
+十、Statement与PreparedStatement的区别,什么是SQL注入，如何防止SQL注入 
+使用PreparedStatement可以提升代码的可读性和可维护性，可以尽最大可能提高性能。因为Statement每次执行一个SQL命令都会对其编译，但PreparedStatement则只编译一次。PreparedStatement就类似于流水线生产。另一方面PreparedStatement可以极大提高安全性：它对传递过来的参数进行了强制参数类型转换，确保插入或查询数据时，与底层数据库格式匹配。 
+SQL注入：就是通过将sql命令插入到web表单递交或输入域名或页面请求的查询字符串，最终达到欺骗服务器执行恶意SQL命令。如sql命令：select id from test where name=’1’ or 1=1; drop table test,但用PreparedStatement就可以避免这种问题。
+
+十二、关于JAVA内存模型，一个对象（两个属性，四个方法）实例化100次，现在内存中的存储状态，几个对象，几个属性，几个方法。 
+Java新建的对象都放在堆里，如果实例化100次，堆中产生100个对象，一般对象与其属性和方法属于一个整体，但如果属性和方法是静态的，则属性和方法只在内存中存一份。
+
+MySQL连接数据库 
+Class.forName(“com.sql.jdbc.Driver”); 
+Connection ct=DriverManager.getConnection (“jdbc:mysql://127.0.0.1:3360/first”,”root”,”123”); 
+PreparedStatement ps=ct.preparedStatement(sql); 
+ResultSet rs=ps.executeQuery();
+
+float型float f=3.4是否正确?
+
+不正确。精度不准确,应该用强制类型转换，如下所示：float f=(float)3.4 或float f = 3.4f 在java里面，没小数点的默认是int,有小数点的默认是double;
+
+structs
+
+1.是一个框架(基于mvc的一个web框架) 
+2. 
+（规范化，效率高，可读性好，可维护性增加；）
+
+mvc模式（模式是一种思想）（model view control） 
+将数据的输入，处理（model）和显示分开（jsp）
+
+对mvc的理解不同，写程序时规范不统一，不利维护扩展效率，所以 
+有了统一的规范structs
+
+structs运行原理： 
+用户登录：
+
+浏览器 web服务器 ActionServlet（struts-config.xml） actionform Loginaction model jsp
+
+static表示不要实例化就可以使用。被static修饰的成员变量和成员方法不依赖类特定的实例，被类的所有实例共享。
+
+对于静态变量在内存中只有一个拷贝（节省内存），JVM只为静态分配一次内存，在加载类的过程中完成静态变量的内存分配，可用类名直接访问（方便），当然也可以通过对象来访问（但是这是不推荐的）。 
+一般在需要实现以下两个功能时使用静态变量： 
+在对象之间共享值时（多个变量共享一个值：如所有学生公用一个变量学费） 
+方便访问变量时
+
+类变量是该类的所有对象共享的变量，任何一个该类的对象去访问它时，取到的都是相同的值，任何一个该类的对象去修改它时，修改的也是同一个变量。
+
+静态区域块只被执行一次，且自动执行不需实例化。利用静态代码块可以对一些static变量进行赋值。 
+类变量原则上用类方法去访问；类方法中不许访问非静态变量，反之可以；静态方法中不能用this和super关键字。
+
+类方法属于类相关的、公共的方法 
+static方法独立于任何实例，static方法必须被实现，而不能是抽象的abstract。
+
+一般类内部的static方法也是方便其它类对该方法的调用。
+
+如果一个成员被声明为static，它就能够在它的类的任何对象创建之前被访问，而不必引用任何对象。
+
+spring
+
+Spring是全面的和模块化的。Spring有分层的体系结构，你能选择使用它孤立的任何部分，它的架构仍然是内在稳定的。 
+Spring作为开源的中间件，独立于各种应用服务器，甚至无须应用服务器的支持，也能提供应用服务器的功能，如声明式事务、事务处理等。
+Spring致力于J2EE应用的各层的解决方案，而不是仅仅专注于某一层的方案。可以说Spring是企业应用开发的“一站式”选择，并贯穿表现层、业务层及持久层。然而，Spring并不想取代那些已有的框架，而是与它们无缝地整合。
+
+轻量、控制反转ioc、面向切面、容器、框架、mvc
+
+servlet生命周期：创建实例，init初始化，service方法处理，destroy方法销毁。
+
+int 是基本类型，直接存数值 
+integer是对象，用一个引用指向这个对象(一个类)
+
+int i =1; 
+Integer i= new Integer(1);(要把integer 当做一个类看)
+
+Integer 是一个类，是int的扩展，定义了很多的转换方法 
+类似的还有：float Float;double Double;string String等
+
+举个例子：当需要往ArrayList，HashMap中放东西时，像int，double这种内建类型是放不进去的，因为容器都是装object的，这是就需要这些内建类型的外覆类了。 
+Java中每种内建类型都有相应的外覆类。
+
+Java中int和Integer关系是比较微妙的。关系如下：
+
+1.int是基本的数据类型； 
+2.Integer是int的封装类； 
+3.int和Integer都可以表示某一个数值； 
+4.int和Integer不能够互用，因为他们两种不同的数据类型；
+
+引入的原因：为了在各种类型间转化，通过各种方法的调用。否则 你无法直接通过变量转化。 
+比如，现在int要转为String 
+int a=0; 
+String result=Integer.toString(a); 
+在java中包装类，比较多的用途是用在于各种数据类型的转化中。
+
+JVM是一个”桥梁“，是一个”中间件“，是实现跨平台的关键，Java代码首先被编译成字节码文件，再由JVM将字节码文件翻译成机器语言，从而达到运行Java程序的目的。 
+JVM 有一个选项，可以将使用最频繁的字节码翻译成机器码并保存，这一过程被称为即时编译。这种方式确实很有效， 
+JVM 自己的命令集，JVM 的命令集则是可以到处运行的，因为 JVM 做了翻译，根据不同的CPU ，翻译成不同的机器语言。 
+Java 中的所有类，必须被装载到 JVM 中才能运行，这个装载工作是由 JVM 中的类装载器完成的，类装载器所做的工作实质是把类文件从硬盘读取到内存中。 
+　　2. Java中的类大致分为三种： 
+　　a) 系统类 
+　　b) 扩展类 
+　　c) 由程序员自定义的类 
+　　3. 类装载方式，有两种： 
+　　a) 隐式装载，程序在运行过程中当碰到通过 new 等方式生成对象时，隐式调用类装载器加载对应的类到jvm中。 
+　　b) 显式装载，通过 class.forName() 等方法，显式加载需要的类。

@@ -1,0 +1,142 @@
+Struts只是一个MVC框架（Framework）,用于快速开发Java Web应用。Struts实现的重点在C(Controller)，包括ActionServlet/RequestProcessor和我们定制的Action,也为V(View)提供了一系列定制标签（Custom Tag）。但Struts几乎没有涉及M(Model),所以Struts可以采用Java实现的任何形式的商业逻辑。
+
+　　spring是一个轻型容器(light-weight Container)，其核心是Bean工厂(Bean Factory)，用以构造我们所需要的M(Model)。在此基础之上，Spring提供了AOP（Aspect-Oriented Programming, 面向层面的编程）的实现，用它来提供非管理环境下申明方式的事务、安全等服务；对Bean工厂的扩展ApplicationContext更加方便我们实现J2EE的应用；DAO/ORM的实现方便我们进行数据库的开发；Web MVC和Spring Web提供了Java Web应用的框架或与其他流行的Web框架进行集成。
+
+hibernate是一个开放源代码的对象关系映射框架，它对JDBC进行了非常轻量级的对象封装，它将POJO与数据库表建立映射关系，是一个全自动的orm框架，hibernate可以自动生成SQL语句，自动执行，使得Java程序员可以随心所欲的使用对象编程思维来操纵数据库。 Hibernate可以应用在任何使用JDBC的场合，既可以在Java的客户端程序使用，也可以在Servlet/JSP的Web应用中使用，最具革命意义的是，Hibernate可以在应用EJB的J2EE架构中取代CMP，完成数据持久化的重任。
+Hibernate的核心API一共有6个，分别为:Session、SessionFactory、Transaction、Query、Criteria和Configuration。通过这些接口，可以对持久化对象进行存取、事务控制。
+
+ java的所有类的根类java.lang.Object
+
+
+Nginx是一款轻量级的Web 服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器;特点是占有内存少，并发能力强;
+    [root@localhost home]#tar zxvf nginx-0.7.65.tar.gz    
+    [root@localhost home]#cd nginx-0.7.65    
+    [root@localhostnginx-0.7.65]#./configure \    
+    --with-http_stub_status_module  --prefix=/opt/nginx    
+    [root@localhost nginx-0.7.65]#make    
+    [root@localhost nginx-0.7.65]#make install 
+
+
+Linux基本shell命令：
+ls:列出文件； cp a b复制 ; cat 文件 查看； touch a 创建 ；rm -i a 提示删除a
+mkdir b 创建目录；rmdir ； echo/cat 输出或添加(echo "ni hao" >> a.txt);
+mv a b移动或重命名； cd ..返回； ls -la | grep a.txt搜索文件； 
+rz/sz上传下载；head/tail显示首尾行；pwd当前目录 ;file a查看文件类型；
+more/less:分屏显示； uniq a删除重复行； wc -lwc a 显示文件行数/单词数/字符数
+locate 文件名/关键字：查找路径 ；gzip [-vd9] /gunzip [-v] a 压缩/解压缩；
+whoami/hostname用户/主机名； cal 日历；date；chmod ;
+
+chmod +rwx hello ; gcc -o hello hello.c  ;  ./hello
+java 类名.class ; java 类名 ; cat IODemo.log ;
+
+
+1.文件夹名 init (本地仓库初始化)
+   Git status(查看仓库所添加的文件)
+   git checkout -- 1.txt返回上一状态
+
+2.git add 文件名
+
+3.git commit -m '说明'
+
+4.git remote add origin 地址
+
+5.git push -u origin master
+
+
+   与书中的索引一样，数据库中的索引使您可以快速找到表或索引视图中的特定信息。索引包含从表或视图中一个或多个列生成的键，以及映射到指定数据的存储位置的指针。通过创建设计良好的索引以支持查询，可以显著提高数据库查询和应用程序的性能。索引可以减少为返回查询结果集而必须读取的数据量。索引还可以强制表中的行具有唯一性，从而确保表数据的数据完整性。
+数据库索引好比是一本书后的索引，能加快数据库的查询速度。
+例如这样一个查询：SELECT * FROM TABLE1 WHERE ID=44。如果没有索引，必须遍历整个表，直到ID等于44的这一行被找到为止；有了索引之后(必须是在ID这一列上建立的索引)，直接在索引里面找44，就可以得知这一行的位置，也就是找到了这一行。可见，索引是用来定位的。
+索引分为聚簇索引和非聚簇索引两种，聚簇索引是按照数据存放的物理位置为顺序的，而非聚簇索引就不一样了；聚簇索引能提高多行检索的速度，而非聚簇索引对于单行的检索很快。
+
+SELECT * FROM mytable WHERE category_id=1 AND user_id=2;
+CREATE INDEX mytable_categoryid_userid ON mytable (category_id,user_id);表名_字段1名_字段2名
+alter table 'mytable' add index index_name('列名1','列名')；添加索引
+
+对查询进行优化，应尽量避免全表扫描，首先应考虑在 where 及 order by涉及的列上建立索  ；
+
+尽可能的使用 varchar/nvarchar 代替 char/nchar，因为首先变长字段存储空间小，可以节省存储空间，其次对于查询来说，在一个相对较小的字段内搜索效率显然要高些；
+
+数据库优化：建立索引，配置缓存，slow_query_log慢查询日志分析，分库分表，子查询优化，sql优化；
+
+
+
+实现多线程：
+
+1）继承Thread类实现多线程
+Thread本质上也是实现了Runnable接口的一个实例，它代表一个线程的实例，并且启动线程的唯一方法就是通过Thread类的start()实例方法。start()方法是一个native方法，它将启动一个新线程，并执行run()方法。这种方式实现多线程很简单，通过自己的类直接extend Thread，并复写run()方法，就可以启动新线程并执行自己定义的run()方法。例如：
+public class MyThread extends Thread {
+　　public void run() {
+　　 System.out.println("MyThread.run()");
+　　}
+}
+在合适的地方启动线程如下：
+MyThread myThread1 = new MyThread();
+myThread1.start();
+
+2)实现Runnable接口方式实现多线程
+如果自己的类已经extends另一个类，就无法直接extends Thread，此时，必须实现一个Runnable接口，如下：
+public class MyThread extends OtherClass implements Runnable {
+　　public void run() {
+　　 System.out.println("MyThread.run()");
+　　}
+}
+为了启动MyThread，需要首先实例化一个Thread，并传入自己的MyThread实例：
+MyThread myThread = new MyThread();
+Thread thread = new Thread(myThread);
+thread.start();
+
+
+构造方法和实例方法的区别：
+一、主要的区别在于三个方面：修饰符、返回值、命名
+1、和实例方法一样，构造器可以有任何访问的修饰符，public、private、protected或者没有修饰符   ，都可以对构造方法进行修饰。不同于实例方法的是构造方法不能有任何非访问性质的修饰符修饰，例如static、final、synchronized、abstract等都不能修饰构造方法。 
+2、返回类型是非常重要的，实例方法可以返回任何类型的值或者是无返回值（void）,而构造方法是没有返回类型的，void也不行。 
+3、至于命名就是构造方法与类名相同，当然了实例方法也可以与类名相同,但是习惯上我们为实例方法命名的时候通常是小写的,另一方面也是与构造方法区分开。
+4、java语言中规定每个类至少要有一个构造方法(可以有多个),为了保证这一点，当用户没有给java类定义明确的构造方法的时候,java为我们提供了一个默认的构造方法,这个构造方法没有参数,修饰符是public并且方法体为空。
+
+
+String []a = new String[10];则：a[0]~a[9] = null； a.length = 10
+
+如果是int []a = new int[10];则：a[0]~a[9] = 0；  a.length = 10
+
+
+线程分为守护线程和非守护线程（即用户线程）。
+只要当前JVM实例中尚存在任何一个非守护线程没有结束，守护线程就全部工作；只有当最后一个非守护线程结束时，守护线程随着JVM一同结束工作。守护线程最典型的应用就是 GC (垃圾回收器)
+
+
+11. 存在使i + 1 < i的数吗（）答案：存在
+
+解析：如果i为int型，那么当i为int能表示的最大整数时，i+1就溢出变成负数了，此时不就<i了吗。
+
+扩展：存在使i > j || i <= j不成立的数吗（）答案：存在
+
+解析：比如Double.NaN或Float.NaN
+
+
+Map与Set的本质区别有：Set不能包含重复的元素，最多有一个空值，继承自Collection接口，底层是Map实现机制。Map不能包含重复的键，每个键最多对应一个映射的值，不能有空值键。
+List 是链表（接口），是可以允许出现重复值的。它的具体实现类：ArrayList和LinkedList
+set  是集合（接口），不允许出现重复值。它的具体实现类HashSet
+java提供的迭代器接口进行java collection的遍历。Iterator模式是用于遍历类的标准访问方法
+
+
+java中的访问权限控制符有四个.default默认为friendly：
+
+作用域         当前类          同一package           子孙类                其他package
+public           √                  √                √                       √
+protected        √                  √                 √                      ×
+friendly         √                  √                 ×                       ×
+private          √                  ×                 ×                       ×
+
+
+Math.floor(-4.7)=-5.0取小;Math.round(-4.7)=-5.0四舍五入；Math.ceil(-4.7)=-4.0取大；
+
+
+
+==是比较地址，equals比较内容
+Java中equals和==的区别
+
+java中的数据类型，可分为两类：
+1.基本数据类型，也称原始数据类型。byte,short,char,int,long,float,double,boolean
+他们之间的比较，应用双等号（==）,比较的是他们的值。
+2.复合数据类型(类)
+当他们用（==）进行比较的时候，比较的是他们在内存中的存放地址，所以，除非是同一个new出来的对象，他们的比较后的结果为true，否则比较后结果为false。 JAVA当中所有的类都是继承于Object这个基类的，在Object中的基类中定义了一个equals的方法，这个方法的初始行为是比较对象的内存地 址，但在一些类库当中这个方法被覆盖掉了，如String,Integer,Date在这些类当中equals有其自身的实现，而不再是比较类在堆内存中的存放地址了。
+对于复合数据类型之间进行equals比较，在没有覆写equals方法的情况下，他们之间的比较还是基于他们在内存中的存放位置的地址值的，因为Object的equals方法也是用双等号（==）进行比较的，所以比较后的结果跟双等号（==）的结果相同。

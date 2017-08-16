@@ -521,4 +521,230 @@ Eclipse快捷键:
       在 [MySQLd] 部分添加一句（如果存在，调整其值就可以）：
       max_allowed_packet=10M
 
+Eclipse生成JavaDoc 出现 错误: 编码GBK的不可映射字符 的解决方法:
+        在Configure Javadoc arguments 界面的 VM options 选项输入框中加上:
+        -encoding UTF-8 -charset UTF-8
+
+单例模式和静态类的区别:
+    1.单例模式可以继承和被继承,方法可以被override,而静态方法不可以.
+    2.静态方法中产生的对象在执行后被释放,进而被GC清理,不会一直存在内存中.
+    3.静态类会在第一次运行是初始化,单例模式可以有其他的选择,即可以延迟加载.
+    4.基于2,3条,由于单例对象往往存在于DAO层(例如sessionFactory),如果反复的初始化和释放,则会占用很多资源,而使用单例模式将其常驻于内存可以更加节约资源.
+    5.静态方法有更高的访问效率.
+    6.单例模式很容易被测试.
+
+单例模式的实现:
+    通过提供一个静态的对象instance，利用private权限的构造方法和getInstance()方法来给予访问者一个单例。
+    之所以叫懒汉模式,主要是因为此种方法可以非常明显的lazy loading.
+    1.懒汉模式(非线程安全)
+
+        public class SingletonDemo{
+            private static SingletonDemo instance;
+            private SingletonDemo(){
+
+            }
+            public static SingletonDemo getInstance(){
+                if(instance == null){
+                    instance = new SingletonDemo();
+                }
+                return instance;
+            }
+        }
+
+    2.懒汉模式(线程安全)
+
+        public class SingletonDemo{
+            private static SingletonDemo instance;
+            private SingletonDemo(){
+
+            }
+
+            public static synchronized SingletonDemo getInstance(){
+                if(instance == null){
+                    instance = new SingletonDemo();
+                }
+                return instance;
+            }
+        }
+
+    3.饿汉模式
+
+        public class SingletonDemo{
+            private static SingletonDemo instance = new SingletonDemo();
+            private SingletonDemo(){
+
+            }
+
+            public static SingletonDemo getInstance(){
+                return instance;
+            }
+        }
+        直接运行这个类的时候进行一次loading,之后直接访问,没有起到lazy loading的效果,这种方法只比静态类多了一个内存常驻而已.
+
+    4.静态类内部加载
+
+        public class SingletonDemo{
+            private static class SingletonDemo{
+                private static SingletonDemo instance = new SingletonDemo();
+            }
+
+            private SingletonDemo(){
+                System.out.println("Singleton has loaded");
+            }
+
+            public static SingletonDemo getInstance(){
+                return SingletonDemo.instance;
+            }
+        }
+        使用内部类的好处是,静态内部类不会在单例加载时加载,而是在调用getInstance()方法时才进行加载,达到了类似懒汉模式的效果,而这种方法又是线程安全的
+
+    5.枚举方法
+        enum SingletonDemo{
+            INSTANCE;
+            public void otherMethods(){
+                System.out.println("Something");
+            }
+        }
+
+        Effective Java作者Josh Bloch 提倡的方式，在我看来简直是来自神的写法。解决了以下三个问题：
+
+        (1)自由序列化。
+        (2)保证只有一个实例。
+        (3)线程安全。
+
+        如果我们想调用它的方法时，仅需要以下操作：
+
+        public class Hello {
+            public static void main(String[] args){
+                SingletonDemo.INSTANCE.otherMethods();
+            }
+        }
+        这种充满美感的代码真的已经终结了其他一切实现方法了。
+
+    6.双重校验锁法
+        public class SingletonDemo{
+            private volatile static SingletonDemo instance;
+            private SingletonDemo(){
+                System.out.println("Singleton has loaded");
+            }
+            public static singletonDemo getInstance{
+                if(instance == null){
+                    synchronized (SingletonDemo.class){
+                        if(instance == nulll){
+                            instance = new SingletonDemo();
+                        }
+                    }
+                }
+                return instance;
+            }
+        }
+
+        双重校验锁法会有怎样的情景：
+
+        STEP 1. 线程A访问getInstance()方法，因为单例还没有实例化，所以进入了锁定块。
+
+        STEP 2. 线程B访问getInstance()方法，因为单例还没有实例化，得以访问接下来代码块，而接下来代码块已经被线程1锁定。
+
+        STEP 3. 线程A进入下一判断，因为单例还没有实例化，所以进行单例实例化，成功实例化后退出代码块，解除锁定。
+
+        STEP 4. 线程B进入接下来代码块，锁定线程，进入下一判断，因为已经实例化，退出代码块，解除锁定。
+
+        STEP 5. 线程A获取到了单例实例并返回，线程B没有获取到单例并返回Null。
+
+        理论上双重校验锁法是线程安全的，并且，这种方法实现了lazyloading。
+
+
+
+不可变对象是指一个对象的状态在对象被创建之后就不再变化。不可变对象对于缓存是非常好的选择，因为你不需要担心它的值会被更改。
+
+        创建一个不可变类：
+
+        将类声明为final，所以它不能被继承；
+        将所有的成员声明为私有的，这样就不允许直接访问这些成员；
+        对变量不要提供setter方法；
+        将所有可变的成员声明为final，这样只能对它们赋值一次；
+        通过构造器初始化所有成员，进行深拷贝（deep copy）；
+        在getter方法中，不要直接返回对象本身，而是克隆对象，并返回对象的拷贝；
+
+        public final class Immutable {  
+            private final int id;  
+            private final String name;  
+            private final HashMap map;  
+            
+            public int getId() {  
+                return id;  
+            }  
+            
+            public String getName() {  
+                return name;  
+            }  
+            
+            /** 
+             * 可变对象的访问方法 
+             */  
+            public HashMap getMap() {  
+                return (HashMap) testMap.clone();  
+            }  
+            
+            /** 
+             * 实现深拷贝的构造器*/  
+            public Immutable(int i, String n, HashMap hm){this.id=i;  
+                this.name=n;  
+                HashMap tempMap=new HashMap();  
+                String key;  
+                Iterator it = hm.keySet().iterator();  
+                while(it.hasNext()){  
+                    key=it.next();  
+                    tempMap.put(key, hm.get(key));  
+                }  
+                this.map = tempMap;  
+            }  
+           
+        }
+
+
+        不变模式有两种形式：弱不变模式和强不变模式。
+
+        弱不变模式，指类实例的状态是不可改变，但是这个类的子类的实例具有可能会变化的状态，要实现弱不变模式，一个类必须满足下面条件：
+
+        对象没有任何会修改对象状态的方法 ，这样一来当对象的构造函数将对象的状态初始化之后，对象的状态便不再改变；
+
+        属性都是私有的，以防客户端对象直接修改内部状态；
+
+        这个对象所引用的其他对象如果是可变的话，必须设法限制外界对这些可变对象的访问，以防止外界修改这些对象，尽量在不可变对象内部初始化这些被引用的对象，而不要在客户端初始化再传入到不可变对象内部来，如果某个可变对象必须在客户端初始化，然后再传入到不变对象里的话，就应当考虑在不可变对象初始化的时候，将这个可变对象进行拷贝。
+
+        弱不变模式的缺点是，一个弱不变对象的子对象可能是可变的，这个可变的子对象可能可以修改父对象的状态，从而可能允许外界修改父对象的状态。
+
+        强不变模式：一个类的实例不会改变，同时它的子类的实例也具有不可变化的状态。一个类必须首先满足弱不变模式所要求的所有条件，并且还有满足下面条件之一：
+
+        类所有的方法都应当是final，这样这个类的子类不能够重写此类的方法；
+        此类本身就是final的，那么这个类就不可能会有子类，从而也就不可能有被子类修改的问题；
+
+        不变和只读的区别：当一个变量是只读时，变量的值不能直接改变，但是可以在其他变量发生改变的时候改变；比如生日是不变属性，而年龄是只读的，年龄会随着时间发生变化，生日则不会变化。（用final声明的变量是只读的）
+
+        不可变对象的好处：
+
+        不可变对象更容易构造，测试与使用；
+        真正不可变对象都是线程安全的；
+        不可变对象的使用没有副作用（没有保护性拷贝）；
+        对象变化的问题得到了避免；
+        不可变对象的失败都是原子性的；
+        不可变对象更容易缓存，且可以避免null引用；
+        不可变对象可以避免时间上的耦合；
+        String，StringBuffer，StringBuilder，都是final类，不允许被继承，在本质上都是字符数组，不同的是，String的长度是不可变的而后两者长度可变，在进行连接操作时，String每次返回一个新的String实例，而StringBuffer和StringBuilder的append方法直接返回this，所以当进行大量的字符串连接操作时，不推荐使用String，因为它会产生大量的中间String对象。
+
+        StringBuffer和StringBuilder的一个区别是，StringBuffer在append方法前增加了一个synchronized修饰符，以起到同步的作用，为此也降低了执行效率；若要在toString方法中使用循环，使用StringBuilder。
+
+        整数二进制表示只需要知道一点就行了，那就是：有符号数的最高位的权值需要乘以 -1，比如以下是233的32位二进制表示：
+        233 = 00000000 00000000 00000000 11101001
+        该数的最高位为0，所以其权值为0，乘以 -1 依然是0，所以整个数是正数
+        将其转换成为type后为：
+        11101001，那么该数的值就是：
+        -1 * 1 * 2^7 + 1 * 2^6 + 1 * 2^5 + 0 * 2^4 + 1 * 2^3 + 0 * 2^2 + 0 * 2^1 + 1 * 2^0 = -128 + 64 + 32 + 8 + 1 = -23
+
+        理解了这点后对于理解整数的二进制表示很有帮助，例如不管这个数用多少位来表示，我们都可以知道以下特点：
+        1. 所有位都为1时该值是 -1，因为2^0 + 2^1 + ... + 2^(n-1) = 2^n - 1。计算-1 + 1 = 0，因为其二进制表示的最高位溢出了，留下的有效位全为0，所以就自然得到了0；
+        2. 仅最高位为1，其余位都为0时表示最小的负数；
+        3. 仅最高位为0，其余位都为1时表示最大的正数。
+
         MySQL:GCfund!@!
