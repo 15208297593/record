@@ -174,9 +174,7 @@ maven Plugin execution not covered by lifecycle configuration 错误解决办法
                 </pluginManagement>
         </build>
 即在 <build> 和 <plugins>标签之间加上 <pluginManagement>标签
- Eclipse创建Maven web项目jsp表头报错  解决方法
-        这种一般都是因为新创建的项目缺少运行环境
-        右键web工程－属性或Build Path－Java BuildPath－Libraries－AddLibary－Server runtime
+ 
 
 npm设置为淘宝镜像:npm config set registry https://registry.npm.taobao.org 
 npm国内镜像:npm config set registry http://registry.cnpmjs.org
@@ -284,6 +282,9 @@ centos7查看当前哪些进程占用内存:
 			  }
 	在命令行执行 javac编译java文件出现 "错误: 编码UTF8的不可映射字符"
 		解决方法是添加encoding 参数：javac -encoding gbk xxx.java
+
+    Javac 带外部jar包编译:
+        javac -cp d:\xxx.jar -encoding utf-8 xxx.java
 
     Dos命令
         在dos下打开某个目录的文件夹窗口   start 目录路径  例如:start c:\windows
@@ -508,12 +509,26 @@ Linux查看配置信息:
         6.4查看系统所有用户 cut -d: -f1 /etc/passwd
 
 Eclipse快捷键:
-    1、编辑页面编辑页之间切换的快捷键
+    1.编辑页面编辑页之间切换的快捷键
         Ctrl + Shift + F6 （轻松实现了切换） alt+left/right  ctrl+page up/page down
-    2、java窗口和deBug调试窗口切换快捷键
+    2.java窗口和deBug调试窗口切换快捷键
         Ctrl + Shift + F8
-    3、查看快捷键列表的快捷键
+    3.查看快捷键列表的快捷键
         Ctrl + Shift + L
+    4. Ctrl+T   直接从接口 找到实现类，它可以根据当前光标所在的文字作判断。如果在一个接口类名上，就直接查找实现类，如果在一个接口 方法上，就直接查找实现方法。
+    5. Ctrl+Shift+T     open type, 打开类型. 它可以打开当前eclipse的工作区中所有(打开的)工程中所有java文件,包括jar包中的类和接口.
+    6. Ctrl+Shift+R     open resource, 打开资源.它可以打开当前eclipse的工作区中所有(打开的)工程中所有类型的文件,但只限手动编写的文件,不含工程中引用到的jar包中的类、接口；
+    
+    二者都支持通配符搜索.
+    注:右键点击工程名,有一个close project选项,单击之后,项目将被关闭,项目中的资源将不会被两个快捷键访问到.
+
+Eclipse生成JavaDoc 出现 错误: 编码GBK的不可映射字符 的解决方法:
+        在Configure Javadoc arguments 界面的 VM options 选项输入框中加上:
+        -encoding UTF-8 -charset UTF-8
+Eclipse创建Maven web项目jsp表头报错  解决方法
+        这种一般都是因为新创建的项目缺少运行环境
+        右键web工程－属性或Build Path－Java BuildPath－Libraries－AddLibary－Server runtime
+
 数据导入报错：Got a packet bigger than‘max_allowed_packet’bytes的问题
     1.临时修改：mysql>set global max_allowed_packet=524288000;修改 #512M
  
@@ -521,9 +536,6 @@ Eclipse快捷键:
       在 [MySQLd] 部分添加一句（如果存在，调整其值就可以）：
       max_allowed_packet=10M
 
-Eclipse生成JavaDoc 出现 错误: 编码GBK的不可映射字符 的解决方法:
-        在Configure Javadoc arguments 界面的 VM options 选项输入框中加上:
-        -encoding UTF-8 -charset UTF-8
 
 单例模式和静态类的区别:
     1.单例模式可以继承和被继承,方法可以被override,而静态方法不可以.
@@ -746,5 +758,8 @@ Eclipse生成JavaDoc 出现 错误: 编码GBK的不可映射字符 的解决方�
         1. 所有位都为1时该值是 -1，因为2^0 + 2^1 + ... + 2^(n-1) = 2^n - 1。计算-1 + 1 = 0，因为其二进制表示的最高位溢出了，留下的有效位全为0，所以就自然得到了0；
         2. 仅最高位为1，其余位都为0时表示最小的负数；
         3. 仅最高位为0，其余位都为1时表示最大的正数。
+
+多任务和高并发是衡量一台计算机处理器的能力重要指标之一。一般衡量一个服务器性能的高低好坏，使用每秒事务处理数（Transactions Per Second，TPS)
+
 
         MySQL:GCfund!@!

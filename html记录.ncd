@@ -1,0 +1,44 @@
+<!DOCTYPE NoteCase-File>
+<!--LastNote:0-->
+<HTML>
+<HEAD>
+<meta content="text/html;charset=UTF-8" http-equiv="Content-Type">
+<meta name="generator" content="NoteCase 1.9.8">
+<TITLE></TITLE>
+</HEAD>
+<BODY>
+<DL>
+<DT>html记录</DT>
+<!--property:icon_internal=blank-->
+<!--property:date_created=1496817694-->
+<!--property:date_modified=1496817694-->
+<!--property:expanded-->
+<DD>
+<DL>
+<DT>html标签属性</DT>
+<!--property:icon_internal=blank-->
+<!--property:date_created=1496817706-->
+<!--property:date_modified=1496817715-->
+<DD>
+&lt;abbr&gt; 标签用来表示一个缩写词或者首字母缩略词，如&quot;WWW&quot;或者&quot;NATO&quot;。	通过对缩写词语进行标记，您就能够为浏览器、拼写检查程序、翻译系统以及搜索引擎分度器提供有用的信息。<BR>
+<BR>
+<BR>
+	HTML5 不支持 &lt;acronym&gt; 标签。请使用 &lt;abbr&gt; 标签代替它。<BR>
+<BR>
+&lt;acronym&gt; 标签定义首字母缩略词。<BR>
+<BR>
+	如果首字母缩略词是一个单词，则可以被读出来，例如 NATO, NASA, ASAP, GUI。<BR>
+	<BR>
+	通过对只取首字母缩略词进行标记，您就能够为浏览器、拼写检查程序、翻译系统以及搜索引擎分度器提供有用的信息。<BR>
+<BR>
+<BR>
+border-collapse 属性设置表格的边框是否被合并为一个单一的边框，还是象在标准的 HTML 中那样分开显示。<BR>
+<BR>
+
+</DD>
+</DL>
+
+</DD>
+</DL>
+</BODY>
+</HTML>

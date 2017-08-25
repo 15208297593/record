@@ -61,7 +61,7 @@ JSP中有三种形式的脚本，要理解这三种脚本，应该先理解JSP�
 vector是同步的，arraylist和linkedlist不是同步的。底层方面，vector与arraylist都是基于object[]array实现的，但考虑vector线程安全，所以arraylist效率上回比vector较快。元素随机访问上，vector与arraylist是基本相同的，时间复杂度是O(1)，linkedlist的随机访问元素的复杂度为O(n)。但在插入删除数据上，linkedlist则比arraylist要快很多。linkedlist比arraylist更占内存，因为linkedlist每个节点上还要存储对前后两个节点的引用。
 
 四、ConcurrentHashMap和HashTable的区别 
-两者均应用于多线程中，但当HashTable增大到一定程度时，其性能会急剧下降。因为迭代时会被锁很长时间。但ConcurrentHashMap则通过引入分割来保证锁的个数不会很大。简而言之就是HashTable会锁住真个map，而ConcurrentHashMap则只需要锁住map的一个部分。
+两者均应用于多线程中，但当HashTable增大到一定程度时，其性能会急剧下降。因为迭代时会被锁很长时间。但ConcurrentHashMap则通过引入分割来保证锁的个数不会很大。简而言之就是HashTable会锁住整个map，而ConcurrentHashMap则只需要锁住map的一个部分。
 
 五、Tomcat，apache，jboss的区别 
 Tomcat是servlet容器，用于解析jsp，servlet。是一个轻量级的高效的容器；缺点是不支持EJB，只能用于Java应用。 
@@ -72,7 +72,7 @@ Jboss是应用服务器，运行EJB的javaee应用服务器，遵循javaee规范
 session数据放在服务器上，cookie则放在客户浏览器上。cookie不太安全，因为可以分析出本地cookie，并进行cookie欺骗，考虑安全应使用session。session会在一定时间内保存在服务器上，当访问增多时，会比较占用服务器的性能，考虑减轻服务器压力则应该使用cookie。单个cookie保持的数据不超过4k，很多浏览器都限制要给站点最多保存20个cookie。
 
 八、Servlet的生命周期 
-主要分三个阶段：初始化——调用init()方法，响应客户请求阶段——调用service()方法，终止阶段——调用destroy方法。工作原理：客户发送一个请求，servlet调用service方法对请求进行响应，即对请求方式进行匹配，选择调用doGet、doPost方法等，然后进入对于的方法中调用逻辑层的方法，实现对客户的响应。自定义的servlet必须首先servlet接口。 
+主要分三个阶段：初始化——调用init()方法，响应客户请求阶段——调用service()方法，终止阶段——调用destroy方法。工作原理：客户发送一个请求，servlet调用service方法对请求进行响应，即对请求方式进行匹配，选择调用doGet、doPost方法等，然后进入对于的方法中调用逻辑层的方法，实现对客户的响应。自定义的servlet必须实现servlet接口。 
 具体生命周期包括：装载Servlet、服务器创建Servlet实例、服务器调用Servlet的init()方法、客户请求到达服务器、服务器创建请求对象、服务创建相应对象、服务器激活Servlet的service方法，请求对象和响应对象作为service()方法的参数、service()方法获得关于请求对象的信息，处理请求，访问其他资源，获得需要的信息、service()方法可能激活其他方法以处理请求，如doGet()，doPost()
 
 九、HTTP 报文包含内容 
@@ -85,7 +85,7 @@ SQL注入：就是通过将sql命令插入到web表单递交或输入域名或�
 
 十一、redirect, forward区别 
 redirect：服务器根据逻辑，发送一个状态码，告诉浏览器重新去请求那个地址。所以地址栏显示是新的url。forward是指服务器请求资源，直接访问目标地址url，把响应的内容读取过来并再发送给浏览器，浏览器并不知道资源从哪里来，所以地址栏不变。 
-redirect不能共享数据，forward转发页面和转发到页面可以贡献request中的数据。redirect用于注销，forward用于登陆。forward效率高于redirect。
+redirect不能共享数据，forward转发页面和转发到页面可以共享request中的数据。redirect用于注销，forward用于登陆。forward效率高于redirect。
 
 十、Statement与PreparedStatement的区别,什么是SQL注入，如何防止SQL注入 
 使用PreparedStatement可以提升代码的可读性和可维护性，可以尽最大可能提高性能。因为Statement每次执行一个SQL命令都会对其编译，但PreparedStatement则只编译一次。PreparedStatement就类似于流水线生产。另一方面PreparedStatement可以极大提高安全性：它对传递过来的参数进行了强制参数类型转换，确保插入或查询数据时，与底层数据库格式匹配。 
