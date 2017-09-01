@@ -769,4 +769,7 @@ Eclipse创建Maven web项目jsp表头报错  解决方法
         5. 调用HttpResponse的getAllHeaders()、getHeaders(String name)等方法可获取服务器的响应头；调用HttpResponse的getEntity()方法可获取HttpEntity对象，该对象包装了服务器的响应内容。程序可通过该对象获取服务器的响应内容。
         6. 释放连接。无论执行方法是否成功，都必须释放连接
 
+源码分析统计扫描所有代码并且展示类之间的关系。市场上有很多设备与工具。比如：Architexa， AgileJ， UModel， Poseidon等。
+运行时分析工具能够展示类和方法在用例运行时的状态。工具包括：MaintainJ， Diver，jSonde，Java Call Tracer等。
+
         MySQL:GCfund!@!
