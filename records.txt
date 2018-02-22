@@ -49,6 +49,8 @@ git@github.com:15208297593/goddess-backend.git
 		常见错误及解决方法:
 			git error 'commit' is not possible because you have unmerged files
 			先手工编辑好conflict之后再add,再commit,再push
+            git pull 失败 ,提示：fatal: refusing to merge unrelated histories
+                git pull origin master --allow-unrelated-histories
 
         Git的工作区和暂存区:
             工作区（Working Directory）:     就是你在电脑里能看到的目录，比如我的learngit文件夹就是一个工作区
@@ -771,5 +773,128 @@ Eclipse创建Maven web项目jsp表头报错  解决方法
 
 源码分析统计扫描所有代码并且展示类之间的关系。市场上有很多设备与工具。比如：Architexa， AgileJ， UModel， Poseidon等。
 运行时分析工具能够展示类和方法在用例运行时的状态。工具包括：MaintainJ， Diver，jSonde，Java Call Tracer等。
+市场中有很多静态代码分析工具可用。如：Lattix, Structure101, Coverity, nWire and IntelliJ's DSM。
 
+开启PHPStorm+Xdebug断点调试 [ http://www.cnblogs.com/xp796/p/6444106.html ]
+    1.下载xdebug xdebug官网 根据php 版本下载相应的版本， 把本地的phpinfo()输出的内容全部复制到   https://xdebug.org/wizard.php 中
+    2.下载分析出的 xdebug.dll文件,并放入相应php版本的 ext文件夹下
+    3.在相对应的php.ini配置文件中,增加zend_extension = "<path to php_xdebug.dll>"
+        ;是否开启远程调试
+        xdebug.remote_enable = true
+        ；remote_host 是指调试客户端的地址，即IDE所在的IP，同样的remote_port 是客户端的端口，这两项在远程调试的
+        ;允许调试的客户端IP
+        xdebug.remote_host
+        xdebug.remote_host=127.0.0.1
+        ;远程调试的端口（默认9000）
+        xdebug.remote_port=9001
+        ;Xdebug(远程)调试器允许测试数据结构，步进并且调试你的代码。Xdebug提供了两种协议用于与其进行交互, Xdebug 2.1 和之后的版本只支持dbgp协议,远程调试的应用层通信协议
+        xdebug.remote_handler = dbgp
+        ;日志追踪输出目录
+        xdebug.trace_output_dir="C:/wamp/xdebug"
+        ;xdebug检测项目性能 profiler  一般不要打开性能监控，会产生很大的缓存文件
+        ;profiler_enable  boolean类型，默认值0。用于设定是否开启生成报告文件，如果设定为1，每次请求都会生成一个性能报告文件。
+        xdebug.profiler_enable=0
+        ;boolean类型，默认值0。如果开启该选项，则在每次请求中如果GET/POST或cookie中包含XDEBUG_PROFILE变量名，则才会生成性能报告文件(前提是必须关闭xdebug.profiler_enable选项，否则该选项不起作用)。
+        xdebug.profiler_enable_trigger = Off
+        ;字符串类型,用于设定生成的报告文件的存放的路径。
+        xdebug.profiler_output_dir="C:/wamp/xdebug"
+        ;字符串类型。用于设定生成的报告文件的名字，如cachegrind.out.%t.%p
+        xdebug.profiler_output_name =  "cache.out.%t-%s"
+        ;配置xdebug idekey是phpstorm 调试和netbeans调试需要的参数 ,PHPstorm   xdebug.idekey=PHPSTORM  netbeans xdebug.idekey=netbeans-xdebug
+        xdebug.idekey="PHPSTORM"
+        ;自动打开“监测函数调用过程”的功模。该功能可以在你指定的目录中将函数调用的监测信息以文件的形式输出。此配置项的默认值为off
+        xdebug.auto_trace=On
+        ;打开收集“函数参数”的功能。将函数调用的参数值列入函数过程调用的监测信息中。此配置项的默认值为off。
+        xdebug.collect_params=On
+        ;打开收集“函数返回值”的功能。将函数的返回值列入函数过程调用的监测信息中。此配置项的默认值为off。
+        xdebug.collect_return=On
+        ;显示默认的错误信息
+        xdebug.default_enable=on
+
+Windows下查看端口占用
+        netstat -ano，列出所有端口的情况
+
+        1.查看被占用端口对应的PID，输入命令：netstat -aon|findstr "49157"，回车，记下最后一位数字，即PID,这里是2720
+        
+        2.继续输入tasklist|findstr "2720"，回车，查看是哪个进程或者程序占用了2720端口，结果是：svchost.exe
+        或者是我们打开任务管理器，切换到进程选项卡，在PID一列查看2720对应的进程是谁，如果看不到PID这一列,则我们点击查看--->选择列，将PID(进程标示符)前面的勾打上，点击确定.这样我们就看到了PID这一列标识，看一下2720对应的进程是谁，如果没有，我们把下面的显示所有用户的进程前面的勾打上，就可以看到了，映像名称是svchost.exe，描述是，Windows的主进程,与上面命令查看的完全一致。
+
+        3.结束该进程：在任务管理器中选中该进程点击”结束进程“按钮，或者是在cmd的命令窗口中输入：taskkill /f /t /im Tencentdl.exe。
+
+git回退已提交的版本
+        git log 查看提交历史
+        git reset --hard 要回退到的版本号
+        git push -f origin master (强制推送到远端mster分支,因为回退版本后,本地比远端版本低,直接推送会失败)
+
+
+一个网络包从应用程序A发到另一台电脑上的应用程序B，需要经历：
+        1.从A的业务代码到A的软件框架
+        2.从A的软件框架到计算机的操作系统内核
+        3.从A所在计算机的内核到网卡
+        4.从网卡经过网线发到交换机等设备，层层转发，到达B所在计算机的网卡
+        5.从B所在计算机的网卡到B所在计算机的内核
+        6.从B所在计算机的内核到B的程序的用户空间
+        7.从B的软件框架到B的业务代码
+        这个层级关系就像是过程调用一样，前一级调用后一级的功能，后一级返回一个结果给前一级（比如：成功，或者失败）。只有在单独一级的调用上，可以说同步还是异步的问题。所谓同步，是指调用协议中结果在调用完成时返回，这样调用的过程中参与双方都处于一个状态同步的过程。而异步，是指调用方发出请求就立即返回，请求甚至可能还没到达接收方，比如说放到了某个缓冲区中，等待对方取走或者第三方转交；而结果，则通过接收方主动推送，或调用方轮询来得到。
+        从这个定义中，我们看，首先1和7，这取决于软件框架的设计，如果软件框架可以beginXXX，然后立即返回，这就是一种异步调用，再比如javascript当中的异步HTTP调用，传入参数时提供一个回调函数，回调函数在完成时调用，再比如协程模型，调用接口后马上切换到其他协程继续执行，在完成时由框架切换回到协程中，这都是典型的异步接口设计。
+        
+        而2和6，其他答主已经说得很好了，其实都需要调用方自己把数据在内核和用户空间里搬来搬去，其实都是同步接口，除非是IOCP这样的专门的异步传输接口，所以这一级其实是同步的，阻塞与非阻塞的区别其实是影响调用接口的结果（在特定条件下是否提前返回结果），而不是调用方式。
+        
+        3和5，内核一般通过缓冲区，使用DMI来传输数据，所以这一步又是异步的。
+
+        4，以太网是个同步时序逻辑，随信号传输时钟，必须两边设备同时就绪了才能开始传输数据，这又是同步的。
+
+        总结来说，讨论究竟是异步还是同步，一定要严格说明说的是哪一部分。其他答主说非阻塞是同步而不是异步，这毫无疑问是正确的，然而说某个框架是异步IO的框架，这也是正确的，因为说的其实是框架提供给业务代码的接口是异步的，不管是回调还是协程，比如说我们可以说某个库是异步的HTTPClient，并没有什么问题，因为说的是给业务代码的接口。由于通常异步的框架都需要在2中使用非阻塞的接口，的确会有很多人把非阻塞和异步混为一谈。
+
+
+        一、对象相信大家经常看到同步系统、异步系统及异步编程之类的文章，这些文章都是从系统层面来解释概念，这在一定程度上会让初学者费解。因此，我个人觉得可以降低维度，就是不管是同步、异步、阻塞及非阻塞，这些概念都是针对某一个具体的对象而言。在程序中，这个对象就是调用者，明确对象后，在来看看同步和异步的概念。
+
+        二、同步和异步同步和异步概念以 “调用者的行为方式” 做区分。
+        当程序产生一个调用后，如果调用者主动等待该调用的结果，则称之为同步。
+        当程序产生一个调用后，如果调用者不以主动的方式等待结果，而是被调用者完成任务后，通过某种形式（消息等...）通知调用者，则称之为异步。
+
+        三、阻塞和非阻塞那么，当调用产生后，不管调用者以何种方式（同步和异步）等待这个结果，在被调用者处理任务的那一段时间中，调用者处于何种状态就决定了阻塞和非阻塞。  也就是说，阻塞和非阻塞概念是以被调用者处理任务的时间内“调用者的状态”做区分。
+
+        同步方式：
+            (1)阻塞：调用者什么都不干，就一直在等待，就是停在程序的某条执行语句上。
+            (2)非阻塞：调用者去干别的活，但因为以主动等待结果的方式，所以得时不时的询问任务完成了没有。
+
+        异步方式：
+            (1)阻塞：调用者什么都不干，直至收到被调用者的通知。
+            (2)非阻塞：调用者去干别的活，当被调用者完成任务后，通知调用者，调用者就可以处理被调用者的返回结果了。（回调就是用来处理此时返回的结果）
+        
+        redis-cli -h IP -p 6379，-h后面接redis服务器的IP地址，-p后面接端口， 一般没做过修改redis.conf情况下端口是6379
+        
+免费节假日API:
+		1. 	1、接口地址：http://api.goseek.cn/Tools/holiday?date=数字日期 
+			2、返回数据：工作日对应结果为 0, 休息日对应结果为 1, 节假日对应的结果为 2 
+			3、节假日数据说明：本接口包含2017年起的中国法定节假日数据，数据来源国务院发布的公告，每年更新1次，确保数据最新 
+			4、示例： 
+			http://api.goseek.cn/Tools/holiday?date=20170528 
+			返回数据： 
+			{"code":10001,"data":2} 
+		2.	http://tool.bitefu.net/jiari/?d=数字日期
+			检查具体日期是否为节假日，工作日对应结果为 0, 休息日对应结果为 1, 节假日对应的结果为 2；
+			（对应支付工资比例分别为 100%, 200% 和 300%，以方便程序计算 计算方法 基本工资* (1+结果数值)）
+			获取具体月份下的节假日情况，只返回休息日或者节假日数据；
+			可同时传递一个或者多个日期（月份）；
+			支持 2009 年起至2017年 中国法定节假日，以国务院发布的公告为准，随时调整及增加；http://www.gov.cn/zfwj/bgtfd.htm或http://www.gov.cn/zhengce/xxgkzl.htm
+			多倍工资参考标准:http://www.gov.cn/zhengce/content/2014-01/02/content_1183.htm
+			参数可以以 GET 或 POST 方式传递，以 JSON 格式返回结果。
+
+			用法举例
+			检查一个日期是否为节假日 ?d=20170101
+			检查多个日期是否为节假日 ?d=20170101,20170103,20170105,20171201
+			获取2017年10月份节假日 ?d=201710
+			获取2017年所有节假日 ?d=2017
+			获取2017年1/2月份节假日 ?d=201701,201702
+
+
+        cubietruck 双核+2G+SATA+千兆～～～价格相当于两个Pi吧
         MySQL:GCfund!@!
+        jzjTeusd6&r!  zx2017xyz!
+        120.27.21.65  zx  zx2017xyz!  port:59678  阿里云控制台远程连接密码:738079
+        http://tool.bitefu.net/jiari/?d=20171120
+
+        image/png
+
